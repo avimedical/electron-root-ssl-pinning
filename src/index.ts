@@ -1,15 +1,13 @@
 import flow from "lodash.flow";
-import { CreateRootCAVerifier, RootCertificatesList, ICaStore, CertificateVerifier, RootCertificates } from "./types";
+import { CreateRootCAVerifier, RootCertificatesList, ICaStore, RootCertificates } from "./types";
 import { parsePemFile } from "./parsePemFile";
 import { createPKICertificate, isRootCertificate, findDistinguishedName, isValidityPeriodCorrect } from "./utils";
 import { createChainVerifier } from "./createChainVerifier";
 
-export const createRootCaVerifier: CreateRootCAVerifier = rootCertificates =>
-  flow(
-    determineTypeOfGivenArgument,
-    createCAStore,
-    createChainVerifier,
-  )(rootCertificates) as CertificateVerifier;
+export const createRootCaVerifier: CreateRootCAVerifier = (rootCertificates, hasDomainValidation = true) => {
+  const caStore = flow(determineTypeOfGivenArgument, createCAStore)(rootCertificates) as ICaStore;
+  return createChainVerifier(caStore, hasDomainValidation);
+};
 
 /**
  * Determine if 'rootCertificates' is either a pathname to '*.pem' file or an array of certificates

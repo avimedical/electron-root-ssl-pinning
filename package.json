@@ -1,11 +1,16 @@
 {
-  "name": "electron-root-ssl-pinning",
-  "version": "0.0.4",
+  "name": "@avimedical/electron-root-ssl-pinning",
+  "version": "0.0.5",
   "description": "Pinning root CA certificates into your Electron app",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
-  "repository": "https://github.com/myxious/electron-root-ssl-pinning.git",
-  "author": "Aydar Sultanov <aydarsultanov90@gmail.com>",
+  "homepage": "https://github.com/avimedical/electron-root-ssl-pinning",
+  "author": "Aydar Sultanov <aydarsultanov90@gmail.com>, Avi Medical <engineering@avimedical.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/avimedical/electron-root-ssl-pinning.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "license": "MIT",
   "scripts": {
     "prepublishOnly": "yarn lint && yarn test && yarn build",

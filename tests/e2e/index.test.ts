@@ -14,7 +14,7 @@ describe("Validation must work correctly with real domains", () => {
   test.each([
     "https://www.google.com",
     "https://www.reddit.com",
-    "https://youtube.com",
+    "https://www.youtube.com",
     "https://www.example.org",
     "https://badssl.com",
   ])("must return VALID status for URL %p", async URL => {

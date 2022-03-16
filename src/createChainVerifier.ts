@@ -10,14 +10,17 @@ import {
 } from "./types";
 import { commonNameOid, subjectAlternativeNameOid, isValidityPeriodCorrect, isWeakEncryption } from "./utils";
 
-export function createChainVerifier(caStore: ICaStore): CertificateVerifier {
+export function createChainVerifier(caStore: ICaStore, hasHostValidation = true): CertificateVerifier {
   return async (request: ICertificateVerifyProcRequest): Promise<VerificationResult> => {
     try {
       const chain = createCertificatesChainFromRequest(request);
-      const isHostnameAllowed = validateHostname(request.hostname, chain[0]);
 
-      if (!isHostnameAllowed) {
-        return VerificationResult.INVALID;
+      if (hasHostValidation) {
+        const isHostnameAllowed = validateHostname(request.hostname, chain[0]);
+
+        if (!isHostnameAllowed) {
+          return VerificationResult.INVALID;
+        }
       }
 
       const result = await verifyChain(chain, caStore);
