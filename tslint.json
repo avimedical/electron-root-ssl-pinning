@@ -5,7 +5,6 @@
     "no-console": [true, "log"],
     "no-string-literal": false,
     "ordered-imports": false,
-    "no-unused-variable": true,
     "quotemark": [true, "double", "avoid-escape"],
     "semicolon": [true, "always"],
     "object-literal-sort-keys": false,
