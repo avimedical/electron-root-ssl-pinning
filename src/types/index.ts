@@ -9,7 +9,10 @@ export interface ICaStore {
   [key: string]: Certificate | undefined;
 }
 
-export type CreateRootCAVerifier = (rootCertificates: RootCertificates) => CertificateVerifier;
+export type CreateRootCAVerifier = (
+  rootCertificates: RootCertificates,
+  hasDomainValidation?: boolean,
+) => CertificateVerifier;
 
 export type CertificateVerifier = (request: ICertificateVerifyProcRequest) => Promise<VerificationResult>;
 

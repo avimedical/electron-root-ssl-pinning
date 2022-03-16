@@ -2,13 +2,13 @@ import flow from "lodash.flow";
 import { CreateRootCAVerifier, RootCertificatesList, ICaStore, CertificateVerifier, RootCertificates } from "./types";
 import { parsePemFile } from "./parsePemFile";
 import { createPKICertificate, isRootCertificate, findDistinguishedName, isValidityPeriodCorrect } from "./utils";
-import { createChainVerifier } from "./createChainVerifier";
+import { createChainVerifierFactory } from "./createChainVerifier";
 
-export const createRootCaVerifier: CreateRootCAVerifier = rootCertificates =>
+export const createRootCaVerifier: CreateRootCAVerifier = (rootCertificates, hasDomainValidation = true) =>
   flow(
     determineTypeOfGivenArgument,
     createCAStore,
-    createChainVerifier,
+    createChainVerifierFactory(hasDomainValidation),
   )(rootCertificates) as CertificateVerifier;
 
 /**

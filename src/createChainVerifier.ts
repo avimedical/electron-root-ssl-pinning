@@ -30,6 +30,32 @@ export function createChainVerifier(caStore: ICaStore): CertificateVerifier {
   };
 }
 
+// returns a function like createChainVerifier which performs host validation on flag
+export function createChainVerifierFactory(hasHostValidation = true) {
+  return (caStore: ICaStore): CertificateVerifier => {
+    return async (request: ICertificateVerifyProcRequest): Promise<VerificationResult> => {
+      try {
+        const chain = createCertificatesChainFromRequest(request);
+
+        if (hasHostValidation) {
+          const isHostnameAllowed = validateHostname(request.hostname, chain[0]);
+
+          if (!isHostnameAllowed) {
+            return VerificationResult.INVALID;
+          }
+        }
+
+        const result = await verifyChain(chain, caStore);
+
+        return result;
+      } catch (err) {
+        console.error(err);
+        return VerificationResult.INTERNAL_ERROR;
+      }
+    };
+  };
+}
+
 export function createCertificatesChainFromRequest(request: ICertificateVerifyProcRequest): Certificate[] {
   const chain: Certificate[] = [];
 
